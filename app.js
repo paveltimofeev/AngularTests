@@ -1,13 +1,41 @@
 
 function configApp() {
-  
-  // todo configuration
+
+  console.info('>> app configure');
 }
 
-function HeaderController( $scope ) {
+function run() {
   
-  $scope.buttons = ['Home', 'About'];
+  console.info('>> app run');
 }
+
+
+function HeaderController( scope ) {
+  
+  scope.tasks = ['Type a task below', 'Click the New button'];
+  scope.itemField = "";
+  
+  scope.addNew = function(){
+    
+    var item = scope.itemField;
+    
+    if(item) 
+    {
+      scope.tasks.push( item.trim() );
+      scope.itemField = "";
+    }
+    else
+      console.log('nothing');
+  };
+
+  scope.delete = function(index) {
+
+    if( index >= 0 )
+      scope.tasks.splice(index, 1);
+  };
+
+}
+
 
 function FeedbackFormController( $scope, DbService ) {
   
@@ -17,6 +45,7 @@ function FeedbackFormController( $scope, DbService ) {
     DbService.send( message );
   }
 }
+
 
 function DbService() {
   
@@ -28,9 +57,10 @@ function DbService() {
 
 
 // bundle app
-  angular
-    .module('app', [])
-    .config(configApp)
-    .service('DbService', DbService)
-    .controller('HeaderController', ['$scope', HeaderController])
-    .controller('FeedbackFormCtrl', ['$scope','DbService', FeedbackFormController]);
+angular
+  .module('app', [])
+  .config(configApp)
+  .run(run)
+  .service('DbService', DbService)
+  .controller('HeaderController', ['$scope', HeaderController])
+  .controller('FeedbackFormCtrl', ['$scope','DbService', FeedbackFormController]);

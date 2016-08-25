@@ -8,9 +8,18 @@
   <body ng-app="app">
   
   <div ng-controller="HeaderController">
+    <h1 ng-if="tasks.length>0" >ToDo</h1>
     <ul>
-      <li ng-repeat="button in buttons">{{button}}</li>
+      <li ng-repeat="task in tasks">
+        <input type="button" value="-" ng-click="delete($index)"/> {{task}} 
+      </li>
     </ul>
+    
+    <form ng-submit="addNew()">
+      <input type="text" ng-model="itemField"/>
+      <input type="submit" value="New"/>
+    </form>
+    
   </div>
   
   <div ng-controller="FeedbackFormCtrl">
